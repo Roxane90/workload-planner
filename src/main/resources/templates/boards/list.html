@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Boards</title>
@@ -19,10 +20,11 @@
 <div class="container">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1>Boards</h1>
-        <a href="/boards/new" class="btn btn-primary">+ New Board</a>
+        <!-- Only show New Board button to MANAGER -->
+        <a href="/boards/new" class="btn btn-primary"
+           sec:authorize="hasRole('MANAGER')">+ New Board</a>
     </div>
 
-    <!-- Loop through all boards and display them -->
     <div class="row">
         <div class="col-md-4 mb-3" th:each="board : ${boards}">
             <div class="card h-100">
@@ -32,8 +34,10 @@
                     <a th:href="@{/tickets/board/{id}(id=${board.id})}"
                        class="btn btn-sm btn-outline-primary">View Tickets</a>
 
+                    <!-- Only show Delete button to MANAGER -->
                     <form th:action="@{/boards/{id}/delete(id=${board.id})}"
-                          method="post" class="d-inline">
+                          method="post" class="d-inline"
+                          sec:authorize="hasRole('MANAGER')">
                         <button type="submit"
                                 class="btn btn-sm btn-outline-danger ms-2">Delete</button>
                     </form>
@@ -42,7 +46,6 @@
         </div>
     </div>
 
-    <!-- Show message if no boards exist yet -->
     <p th:if="${#lists.isEmpty(boards)}" class="text-muted">
         No boards yet. Create one!
     </p>

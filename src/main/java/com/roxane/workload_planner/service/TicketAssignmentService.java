@@ -8,6 +8,7 @@ import com.roxane.workload_planner.repository.TicketRepository;
 import com.roxane.workload_planner.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class TicketAssignmentService {
@@ -47,5 +48,14 @@ public class TicketAssignmentService {
 
     public List<TicketAssignment> getAllAssignments() {
         return assignmentRepository.findAll();
+    }
+
+    //get assignments per user (analytics)
+    public Map<String, Long> getAssignmentCountPerUser() {
+        return assignmentRepository.findAll().stream()
+                .collect(java.util.stream.Collectors.groupingBy(
+                        a -> a.getUser().getUsername(),
+                        java.util.stream.Collectors.counting()
+                ));
     }
 }

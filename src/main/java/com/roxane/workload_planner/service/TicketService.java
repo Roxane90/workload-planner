@@ -56,4 +56,15 @@ public class TicketService {
         ticket.setUpdatedAt(LocalDateTime.now());
         return ticketRepository.save(ticket);
     }
+
+    //Count by status (analytics)
+    public long countByStatus(String status) {
+        return ticketRepository.findAll().stream()
+                .filter(t -> t.getStatus().equals(status))
+                .count();
+    }
+
+    public long countAll() {
+        return ticketRepository.count();
+    }
 }

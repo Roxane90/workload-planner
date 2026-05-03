@@ -13,6 +13,8 @@
     <a class="navbar-brand" href="/boards">Workload Planner</a>
     <div>
         <a class="btn btn-outline-light btn-sm" href="/boards">Boards</a>
+        <a class="btn btn-outline-light btn-sm ms-2" href="/analytics"
+           sec:authorize="hasRole('MANAGER')">Analytics</a>
         <a class="btn btn-outline-danger btn-sm ms-2" href="/logout">Logout</a>
     </div>
 </nav>

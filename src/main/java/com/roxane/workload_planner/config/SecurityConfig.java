@@ -18,6 +18,7 @@ public class SecurityConfig {
                         .requestMatchers("/boards/new", "/boards/*/delete").hasRole("MANAGER")
                         .requestMatchers("/tickets/new/**", "/tickets/*/delete").hasRole("MANAGER")
                         .requestMatchers("/tickets/*/edit").hasRole("MANAGER")
+                        .requestMatchers("/analytics/**").hasRole("MANAGER")
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form

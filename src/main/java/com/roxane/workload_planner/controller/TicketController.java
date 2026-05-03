@@ -86,4 +86,22 @@ public class TicketController {
         assignmentService.assignUserToTicket(id, user.getId());
         return "redirect:/tickets/board/" + ticket.getBoard().getId();
     }
+
+    // Show edit form
+    @GetMapping("/{id}/edit")
+    public String showEditForm(@PathVariable Long id, Model model) {
+        Ticket ticket = ticketService.getTicketById(id);
+        model.addAttribute("ticket", ticket);
+        return "tickets/edit";
+    }
+
+    // Handle edit form submission
+    @PostMapping("/{id}/edit")
+    public String updateTicket(@PathVariable Long id,
+                               @RequestParam String title,
+                               @RequestParam String description) {
+        Ticket ticket = ticketService.getTicketById(id);
+        ticketService.updateTicket(id, title, description);
+        return "redirect:/tickets/board/" + ticket.getBoard().getId();
+    }
 }

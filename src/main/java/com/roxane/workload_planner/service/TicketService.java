@@ -12,21 +12,29 @@ public class TicketService {
     private final TicketRepository ticketRepository;
 
     public TicketService(TicketRepository ticketRepository) {
+
         this.ticketRepository = ticketRepository;
     }
 
+    //Get tickets per board
     public List<Ticket> getTicketsByBoard(Long boardId) {
+
         return ticketRepository.findByBoardId(boardId);
     }
 
+    //Get tickets by ID
     public Ticket getTicketById(Long id) {
+
         return ticketRepository.findById(id).orElseThrow();
     }
 
+    //Create new ticket
     public Ticket createTicket(Ticket ticket) {
+
         return ticketRepository.save(ticket);
     }
 
+    //Update a ticket's status
     public Ticket updateStatus(Long id, String status) {
         Ticket ticket = getTicketById(id);
         ticket.setStatus(status);
@@ -34,7 +42,18 @@ public class TicketService {
         return ticketRepository.save(ticket);
     }
 
+    //Delete a ticket
     public void deleteTicket(Long id) {
+
         ticketRepository.deleteById(id);
+    }
+
+    //Update a ticket
+    public Ticket updateTicket(Long id, String title, String description) {
+        Ticket ticket = getTicketById(id);
+        ticket.setTitle(title);
+        ticket.setDescription(description);
+        ticket.setUpdatedAt(LocalDateTime.now());
+        return ticketRepository.save(ticket);
     }
 }

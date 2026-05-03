@@ -28,7 +28,7 @@
 
     <div class="row">
 
-        <!-- TODO Column -->
+        <!-- TO DO board -->
         <div class="col-md-4">
             <h4 class="text-center bg-secondary text-white p-2 rounded">To Do</h4>
             <div th:each="ticket : ${tickets}" th:if="${ticket.status == 'TODO'}">
@@ -54,6 +54,12 @@
                             <button type="submit"
                                     class="btn btn-sm btn-outline-danger">Delete</button>
                         </form>
+
+                        <!-- Edit button -->
+                        <a th:href="@{/tickets/{id}/edit(id=${ticket.id})}"
+                           class="btn btn-sm btn-outline-warning ms-1"
+                           sec:authorize="hasRole('MANAGER')">Edit</a>
+
                         <!-- Assign Me button -->
                         <form th:action="@{/tickets/{id}/assign(id=${ticket.id})}"
                               method="post" class="mt-2">
@@ -66,6 +72,7 @@
                         <div class="mt-2">
                             <small class="text-muted">Assigned to:</small><br>
                             <div th:each="assignment : ${assignments}">
+
         <span th:if="${assignment.ticket.id == ticket.id}"
               class="badge bg-secondary me-1"
               th:text="${assignment.user.username}">username</span>
@@ -76,7 +83,7 @@
             </div>
         </div>
 
-        <!-- IN PROGRESS Column -->
+        <!-- IN PROGRESS board -->
         <div class="col-md-4">
             <h4 class="text-center bg-primary text-white p-2 rounded">In Progress</h4>
             <div th:each="ticket : ${tickets}" th:if="${ticket.status == 'IN_PROGRESS'}">
@@ -102,6 +109,12 @@
                             <button type="submit"
                                     class="btn btn-sm btn-outline-danger">Delete</button>
                         </form>
+
+                        <!-- Edit button -->
+                        <a th:href="@{/tickets/{id}/edit(id=${ticket.id})}"
+                           class="btn btn-sm btn-outline-warning ms-1"
+                           sec:authorize="hasRole('MANAGER')">Edit</a>
+
                         <!-- Assign Me button -->
                         <form th:action="@{/tickets/{id}/assign(id=${ticket.id})}"
                               method="post" class="mt-2">
@@ -114,6 +127,7 @@
                         <div class="mt-2">
                             <small class="text-muted">Assigned to:</small><br>
                             <div th:each="assignment : ${assignments}">
+
         <span th:if="${assignment.ticket.id == ticket.id}"
               class="badge bg-secondary me-1"
               th:text="${assignment.user.username}">username</span>
@@ -124,7 +138,7 @@
             </div>
         </div>
 
-        <!-- DONE Column -->
+        <!-- DONE board -->
         <div class="col-md-4">
             <h4 class="text-center bg-success text-white p-2 rounded">Done</h4>
             <div th:each="ticket : ${tickets}" th:if="${ticket.status == 'DONE'}">
@@ -149,6 +163,12 @@
                             <button type="submit"
                                     class="btn btn-sm btn-outline-danger">Delete</button>
                         </form>
+
+                        <!-- Edit button -->
+                        <a th:href="@{/tickets/{id}/edit(id=${ticket.id})}"
+                           class="btn btn-sm btn-outline-warning ms-1"
+                           sec:authorize="hasRole('MANAGER')">Edit</a>
+
                         <!-- Assign Me button -->
                         <form th:action="@{/tickets/{id}/assign(id=${ticket.id})}"
                               method="post" class="mt-2">

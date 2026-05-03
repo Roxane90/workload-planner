@@ -54,6 +54,23 @@
                             <button type="submit"
                                     class="btn btn-sm btn-outline-danger">Delete</button>
                         </form>
+                        <!-- Assign Me button -->
+                        <form th:action="@{/tickets/{id}/assign(id=${ticket.id})}"
+                              method="post" class="mt-2">
+                            <button type="submit" class="btn btn-sm btn-outline-success">
+                                Assign Me
+                            </button>
+                        </form>
+
+                        <!-- Show who is assigned -->
+                        <div class="mt-2">
+                            <small class="text-muted">Assigned to:</small><br>
+                            <div th:each="assignment : ${assignments}">
+        <span th:if="${assignment.ticket.id == ticket.id}"
+              class="badge bg-secondary me-1"
+              th:text="${assignment.user.username}">username</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -85,6 +102,23 @@
                             <button type="submit"
                                     class="btn btn-sm btn-outline-danger">Delete</button>
                         </form>
+                        <!-- Assign Me button -->
+                        <form th:action="@{/tickets/{id}/assign(id=${ticket.id})}"
+                              method="post" class="mt-2">
+                            <button type="submit" class="btn btn-sm btn-outline-success">
+                                Assign Me
+                            </button>
+                        </form>
+
+                        <!-- Show who is assigned -->
+                        <div class="mt-2">
+                            <small class="text-muted">Assigned to:</small><br>
+                            <div th:each="assignment : ${assignments}">
+        <span th:if="${assignment.ticket.id == ticket.id}"
+              class="badge bg-secondary me-1"
+              th:text="${assignment.user.username}">username</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -109,13 +143,29 @@
                             <button type="submit"
                                     class="btn btn-sm btn-outline-primary">Update</button>
                         </form>
-
                         <form th:action="@{/tickets/{id}/delete(id=${ticket.id})}"
                               method="post" class="d-inline ms-1"
                               sec:authorize="hasRole('MANAGER')">
                             <button type="submit"
                                     class="btn btn-sm btn-outline-danger">Delete</button>
                         </form>
+                        <!-- Assign Me button -->
+                        <form th:action="@{/tickets/{id}/assign(id=${ticket.id})}"
+                              method="post" class="mt-2">
+                            <button type="submit" class="btn btn-sm btn-outline-success">
+                                Assign Me
+                            </button>
+                        </form>
+
+                        <!-- Show who is assigned -->
+                        <div class="mt-2">
+                            <small class="text-muted">Assigned to:</small><br>
+                            <div th:each="assignment : ${assignments}">
+        <span th:if="${assignment.ticket.id == ticket.id}"
+              class="badge bg-secondary me-1"
+              th:text="${assignment.user.username}">username</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

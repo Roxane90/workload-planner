@@ -2,10 +2,13 @@ package com.roxane.workload_planner.controller;
 
 import com.roxane.workload_planner.model.Ticket;
 import com.roxane.workload_planner.service.BoardService;
+import com.roxane.workload_planner.model.User;
+import com.roxane.workload_planner.repository.UserRepository;
 import com.roxane.workload_planner.service.TicketAssignmentService;
 import com.roxane.workload_planner.service.TicketService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -15,23 +18,30 @@ public class TicketController {
     private final TicketService ticketService;
     private final BoardService boardService;
     private final TicketAssignmentService assignmentService;
+    private final UserRepository userRepository;
 
     public TicketController(TicketService ticketService,
                             BoardService boardService,
-                            TicketAssignmentService assignmentService) {
+                            TicketAssignmentService assignmentService,
+                            UserRepository userRepository) {
         this.ticketService = ticketService;
         this.boardService = boardService;
         this.assignmentService = assignmentService;
+        this.userRepository = userRepository;
     }
 
     // Show tickets for a board
     @GetMapping("/board/{boardId}")
-    public String getTicketsForBoard(@PathVariable Long boardId, Model model) {
+    public String getTicketsForBoard(@PathVariable Long boardId, Model model, org.springframework.security.core.Authentication authentication) {
+        String username = authentication.getName();
+        User currentUser = userRepository.findByUsername(username);
         model.addAttribute("tickets", ticketService.getTicketsByBoard(boardId));
         model.addAttribute("board", boardService.getBoardById(boardId));
+        model.addAttribute("currentUser", currentUser);
+        // Pass assignments to check who is already assigned
+        model.addAttribute("assignments", assignmentService.getAllAssignments());
         return "tickets/list";
     }
-
     // Show form to create a new ticket
     @GetMapping("/new/{boardId}")
     public String showCreateForm(@PathVariable Long boardId, Model model) {
@@ -69,10 +79,11 @@ public class TicketController {
 
     // Assign logged in user to ticket
     @PostMapping("/{id}/assign")
-    public String assignToTicket(@PathVariable Long id,
-                                 @RequestParam Long userId) {
+    public String assignToTicket(@PathVariable Long id, org.springframework.security.core.Authentication authentication) {
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username);
         Ticket ticket = ticketService.getTicketById(id);
-        assignmentService.assignUserToTicket(id, userId);
+        assignmentService.assignUserToTicket(id, user.getId());
         return "redirect:/tickets/board/" + ticket.getBoard().getId();
     }
 }

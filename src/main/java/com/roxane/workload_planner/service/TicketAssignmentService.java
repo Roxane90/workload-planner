@@ -25,6 +25,12 @@ public class TicketAssignmentService {
     }
 
     public TicketAssignment assignUserToTicket(Long ticketId, Long userId) {
+        List<TicketAssignment> existing = assignmentRepository.findByTicketId(ticketId);
+        for (TicketAssignment a : existing) {
+            if (a.getUser().getId().equals(userId)) {
+                return a;
+            }
+        }
         Ticket ticket = ticketRepository.findById(ticketId).orElseThrow();
         User user = userRepository.findById(userId).orElseThrow();
 
@@ -37,5 +43,9 @@ public class TicketAssignmentService {
 
     public List<TicketAssignment> getAssignmentsForTicket(Long ticketId) {
         return assignmentRepository.findByTicketId(ticketId);
+    }
+
+    public List<TicketAssignment> getAllAssignments() {
+        return assignmentRepository.findAll();
     }
 }

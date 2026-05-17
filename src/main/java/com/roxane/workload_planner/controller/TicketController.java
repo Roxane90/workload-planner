@@ -1,15 +1,15 @@
 package com.roxane.workload_planner.controller;
 
 import com.roxane.workload_planner.model.Ticket;
-import com.roxane.workload_planner.service.BoardService;
 import com.roxane.workload_planner.model.User;
 import com.roxane.workload_planner.repository.UserRepository;
+import com.roxane.workload_planner.service.BoardService;
 import com.roxane.workload_planner.service.TicketAssignmentService;
 import com.roxane.workload_planner.service.TicketService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/tickets")
@@ -30,19 +30,19 @@ public class TicketController {
         this.userRepository = userRepository;
     }
 
-    // Show tickets for a board
     @GetMapping("/board/{boardId}")
-    public String getTicketsForBoard(@PathVariable Long boardId, Model model, org.springframework.security.core.Authentication authentication) {
+    public String getTicketsForBoard(@PathVariable Long boardId, Model model,
+                                     org.springframework.security.core.Authentication authentication) {
         String username = authentication.getName();
         User currentUser = userRepository.findByUsername(username);
+
         model.addAttribute("tickets", ticketService.getTicketsByBoard(boardId));
         model.addAttribute("board", boardService.getBoardById(boardId));
         model.addAttribute("currentUser", currentUser);
-        // Pass assignments to check who is already assigned
         model.addAttribute("assignments", assignmentService.getAllAssignments());
         return "tickets/list";
     }
-    // Show form to create a new ticket
+
     @GetMapping("/new/{boardId}")
     public String showCreateForm(@PathVariable Long boardId, Model model) {
         model.addAttribute("ticket", new Ticket());
@@ -50,44 +50,48 @@ public class TicketController {
         return "tickets/form";
     }
 
-    // Handle form submission
     @PostMapping("/{boardId}")
     public String createTicket(@PathVariable Long boardId,
-                               @ModelAttribute Ticket ticket) {
+                               @ModelAttribute Ticket ticket,
+                               RedirectAttributes redirectAttributes) {
         ticket.setBoard(boardService.getBoardById(boardId));
         ticketService.createTicket(ticket);
+        redirectAttributes.addFlashAttribute("successMessage", "Ticket created successfully!");
         return "redirect:/tickets/board/" + boardId;
     }
 
-    // Update ticket status
     @PostMapping("/{id}/status")
     public String updateStatus(@PathVariable Long id,
-                               @RequestParam String status) {
+                               @RequestParam String status,
+                               RedirectAttributes redirectAttributes) {
         Ticket ticket = ticketService.getTicketById(id);
         ticketService.updateStatus(id, status);
+        redirectAttributes.addFlashAttribute("successMessage", "Ticket status updated!");
         return "redirect:/tickets/board/" + ticket.getBoard().getId();
     }
 
-    // Delete a ticket
     @PostMapping("/{id}/delete")
-    public String deleteTicket(@PathVariable Long id) {
+    public String deleteTicket(@PathVariable Long id,
+                               RedirectAttributes redirectAttributes) {
         Ticket ticket = ticketService.getTicketById(id);
         Long boardId = ticket.getBoard().getId();
         ticketService.deleteTicket(id);
+        redirectAttributes.addFlashAttribute("successMessage", "Ticket deleted successfully!");
         return "redirect:/tickets/board/" + boardId;
     }
 
-    // Assign logged in user to ticket
     @PostMapping("/{id}/assign")
-    public String assignToTicket(@PathVariable Long id, org.springframework.security.core.Authentication authentication) {
+    public String assignToTicket(@PathVariable Long id,
+                                 org.springframework.security.core.Authentication authentication,
+                                 RedirectAttributes redirectAttributes) {
         String username = authentication.getName();
         User user = userRepository.findByUsername(username);
         Ticket ticket = ticketService.getTicketById(id);
         assignmentService.assignUserToTicket(id, user.getId());
+        redirectAttributes.addFlashAttribute("successMessage", "You have been assigned to the ticket!");
         return "redirect:/tickets/board/" + ticket.getBoard().getId();
     }
 
-    // Show edit form
     @GetMapping("/{id}/edit")
     public String showEditForm(@PathVariable Long id, Model model) {
         Ticket ticket = ticketService.getTicketById(id);
@@ -95,13 +99,14 @@ public class TicketController {
         return "tickets/edit";
     }
 
-    // Handle edit form submission
     @PostMapping("/{id}/edit")
     public String updateTicket(@PathVariable Long id,
                                @RequestParam String title,
-                               @RequestParam String description) {
+                               @RequestParam String description,
+                               RedirectAttributes redirectAttributes) {
         Ticket ticket = ticketService.getTicketById(id);
         ticketService.updateTicket(id, title, description);
+        redirectAttributes.addFlashAttribute("successMessage", "Ticket updated successfully!");
         return "redirect:/tickets/board/" + ticket.getBoard().getId();
     }
 }

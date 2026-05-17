@@ -109,4 +109,28 @@ public class TicketController {
         redirectAttributes.addFlashAttribute("successMessage", "Ticket updated successfully!");
         return "redirect:/tickets/board/" + ticket.getBoard().getId();
     }
+
+    @PostMapping("/{id}/unassign")
+    public String unassignFromTicket(@PathVariable Long id,
+                                     @RequestParam Long userId,
+                                     org.springframework.security.core.Authentication authentication,
+                                     RedirectAttributes redirectAttributes) {
+        String username = authentication.getName();
+        User currentUser = userRepository.findByUsername(username);
+        Ticket ticket = ticketService.getTicketById(id);
+
+        // Members can only unassign themselves
+        // Managers can unassign anyone
+        if (currentUser.getRole().equals("MANAGER") ||
+                currentUser.getId().equals(userId)) {
+            assignmentService.removeAssignment(id, userId);
+            redirectAttributes.addFlashAttribute("successMessage",
+                    "Assignment removed successfully!");
+        } else {
+            redirectAttributes.addFlashAttribute("errorMessage",
+                    "You can only remove your own assignment!");
+        }
+
+        return "redirect:/tickets/board/" + ticket.getBoard().getId();
+    }
 }

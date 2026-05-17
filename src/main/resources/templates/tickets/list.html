@@ -27,6 +27,11 @@
         <span th:text="${successMessage}"></span>
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
+    <!-- Error message -->
+    <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <span th:text="${errorMessage}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1>Tickets for: <span th:text="${board.title}">Board</span></h1>
         <!-- Only show New Ticket button to MANAGER -->
@@ -81,10 +86,33 @@
                         <div class="mt-2">
                             <small class="text-muted">Assigned to:</small><br>
                             <div th:each="assignment : ${assignments}">
+                                <div th:if="${assignment.ticket.id == ticket.id}"
+                                     class="d-flex align-items-center gap-1 mb-1">
+            <span class="badge bg-secondary"
+                  th:text="${assignment.user.username}">username</span>
 
-        <span th:if="${assignment.ticket.id == ticket.id}"
-              class="badge bg-secondary me-1"
-              th:text="${assignment.user.username}">username</span>
+                                    <!-- Manager can remove anyone -->
+                                    <form th:action="@{/tickets/{id}/unassign(id=${ticket.id})}"
+                                          method="post" class="d-inline"
+                                          sec:authorize="hasRole('MANAGER')">
+                                        <input type="hidden" name="userId"
+                                               th:value="${assignment.user.id}">
+                                        <button type="submit"
+                                                class="btn btn-sm btn-outline-danger py-0 px-1">✕</button>
+                                    </form>
+
+                                    <!-- Member can remove themselves only -->
+                                    <form th:action="@{/tickets/{id}/unassign(id=${ticket.id})}"
+                                          method="post" class="d-inline"
+                                          th:if="${assignment.user.id == currentUser.id}"
+                                          sec:authorize="hasRole('MEMBER')">
+                                        <input type="hidden" name="userId"
+                                               th:value="${assignment.user.id}">
+                                        <button type="submit"
+                                                class="btn btn-sm btn-outline-danger py-0 px-1">✕</button>
+                                    </form>
+
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -136,10 +164,33 @@
                         <div class="mt-2">
                             <small class="text-muted">Assigned to:</small><br>
                             <div th:each="assignment : ${assignments}">
+                                <div th:if="${assignment.ticket.id == ticket.id}"
+                                     class="d-flex align-items-center gap-1 mb-1">
+            <span class="badge bg-secondary"
+                  th:text="${assignment.user.username}">username</span>
 
-        <span th:if="${assignment.ticket.id == ticket.id}"
-              class="badge bg-secondary me-1"
-              th:text="${assignment.user.username}">username</span>
+                                    <!-- Manager can remove anyone -->
+                                    <form th:action="@{/tickets/{id}/unassign(id=${ticket.id})}"
+                                          method="post" class="d-inline"
+                                          sec:authorize="hasRole('MANAGER')">
+                                        <input type="hidden" name="userId"
+                                               th:value="${assignment.user.id}">
+                                        <button type="submit"
+                                                class="btn btn-sm btn-outline-danger py-0 px-1">✕</button>
+                                    </form>
+
+                                    <!-- Member can remove themselves only -->
+                                    <form th:action="@{/tickets/{id}/unassign(id=${ticket.id})}"
+                                          method="post" class="d-inline"
+                                          th:if="${assignment.user.id == currentUser.id}"
+                                          sec:authorize="hasRole('MEMBER')">
+                                        <input type="hidden" name="userId"
+                                               th:value="${assignment.user.id}">
+                                        <button type="submit"
+                                                class="btn btn-sm btn-outline-danger py-0 px-1">✕</button>
+                                    </form>
+
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -190,9 +241,33 @@
                         <div class="mt-2">
                             <small class="text-muted">Assigned to:</small><br>
                             <div th:each="assignment : ${assignments}">
-        <span th:if="${assignment.ticket.id == ticket.id}"
-              class="badge bg-secondary me-1"
-              th:text="${assignment.user.username}">username</span>
+                                <div th:if="${assignment.ticket.id == ticket.id}"
+                                     class="d-flex align-items-center gap-1 mb-1">
+            <span class="badge bg-secondary"
+                  th:text="${assignment.user.username}">username</span>
+
+                                    <!-- Manager can remove anyone -->
+                                    <form th:action="@{/tickets/{id}/unassign(id=${ticket.id})}"
+                                          method="post" class="d-inline"
+                                          sec:authorize="hasRole('MANAGER')">
+                                        <input type="hidden" name="userId"
+                                               th:value="${assignment.user.id}">
+                                        <button type="submit"
+                                                class="btn btn-sm btn-outline-danger py-0 px-1">✕</button>
+                                    </form>
+
+                                    <!-- Member can remove themselves only -->
+                                    <form th:action="@{/tickets/{id}/unassign(id=${ticket.id})}"
+                                          method="post" class="d-inline"
+                                          th:if="${assignment.user.id == currentUser.id}"
+                                          sec:authorize="hasRole('MEMBER')">
+                                        <input type="hidden" name="userId"
+                                               th:value="${assignment.user.id}">
+                                        <button type="submit"
+                                                class="btn btn-sm btn-outline-danger py-0 px-1">✕</button>
+                                    </form>
+
+                                </div>
                             </div>
                         </div>
                     </div>

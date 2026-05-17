@@ -58,4 +58,14 @@ public class TicketAssignmentService {
                         java.util.stream.Collectors.counting()
                 ));
     }
+
+    public void removeAssignment(Long ticketId, Long userId) {
+        List<TicketAssignment> assignments = assignmentRepository.findByTicketId(ticketId);
+        for (TicketAssignment assignment : assignments) {
+            if (assignment.getUser().getId().equals(userId)) {
+                assignmentRepository.delete(assignment);
+                return;
+            }
+        }
+    }
 }

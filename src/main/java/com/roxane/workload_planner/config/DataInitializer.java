@@ -20,30 +20,34 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        // Only create users if the database is empty
-        if (userRepository.count() == 0) {
-            User manager = new User();
-            manager.setUsername("manager");
-            manager.setPassword(passwordEncoder.encode("manager123"));
-            manager.setRole("MANAGER");
-            manager.setEmail("manager@example.com");
-            userRepository.save(manager);
+            if (userRepository.findByUsername("manager") == null) {
+                User manager = new User();
+                manager.setUsername("manager");
+                manager.setPassword(passwordEncoder.encode("manager123"));
+                manager.setRole("MANAGER");
+                manager.setEmail("manager@example.com");
+                userRepository.save(manager);
+                System.out.println("manager created!");
+            }
 
-            User member1 = new User();
-            member1.setUsername("member1");
-            member1.setPassword(passwordEncoder.encode("member123"));
-            member1.setRole("MEMBER");
-            member1.setEmail("member1@example.com");
-            userRepository.save(member1);
+            if (userRepository.findByUsername("member1") == null) {
+                User member1 = new User();
+                member1.setUsername("member1");
+                member1.setPassword(passwordEncoder.encode("member123"));
+                member1.setRole("MEMBER");
+                member1.setEmail("member1@example.com");
+                userRepository.save(member1);
+                System.out.println("member1 created!");
+            }
 
-            User member2 = new User();
-            member2.setUsername("member2");
-            member2.setPassword(passwordEncoder.encode("member123"));
-            member2.setRole("MEMBER");
-            member2.setEmail("member2@example.com");
-            userRepository.save(member2);
-
-            System.out.println("Test users created!");
+            if (userRepository.findByUsername("member2") == null) {
+                User member2 = new User();
+                member2.setUsername("member2");
+                member2.setPassword(passwordEncoder.encode("member123"));
+                member2.setRole("MEMBER");
+                member2.setEmail("member2@example.com");
+                userRepository.save(member2);
+                System.out.println("member2 created!");
+            }
         }
     }
-}

@@ -80,7 +80,8 @@
 
                         <!-- Assign Me button -->
                         <form th:action="@{/tickets/{id}/assign(id=${ticket.id})}"
-                              method="post" class="mt-2">
+                              method="post" class="mt-2"
+                              sec:authorize="hasRole('MEMBER')">
                             <button type="submit" class="btn btn-sm btn-outline-success">
                                 Assign Me
                             </button>
@@ -166,7 +167,8 @@
 
                         <!-- Assign Me button -->
                         <form th:action="@{/tickets/{id}/assign(id=${ticket.id})}"
-                              method="post" class="mt-2">
+                              method="post" class="mt-2"
+                              sec:authorize="hasRole('MEMBER')">
                             <button type="submit" class="btn btn-sm btn-outline-success">
                                 Assign Me
                             </button>
@@ -251,7 +253,8 @@
 
                         <!-- Assign Me button -->
                         <form th:action="@{/tickets/{id}/assign(id=${ticket.id})}"
-                              method="post" class="mt-2">
+                              method="post" class="mt-2"
+                              sec:authorize="hasRole('MEMBER')">
                             <button type="submit" class="btn btn-sm btn-outline-success">
                                 Assign Me
                             </button>

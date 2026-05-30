@@ -29,12 +29,19 @@ public class DataInitializer implements CommandLineRunner {
             manager.setEmail("manager@example.com");
             userRepository.save(manager);
 
-            User member = new User();
-            member.setUsername("member");
-            member.setPassword(passwordEncoder.encode("member123"));
-            member.setRole("MEMBER");
-            member.setEmail("member@example.com");
-            userRepository.save(member);
+            User member1 = new User();
+            member1.setUsername("member1");
+            member1.setPassword(passwordEncoder.encode("member123"));
+            member1.setRole("MEMBER");
+            member1.setEmail("member1@example.com");
+            userRepository.save(member1);
+
+            User member2 = new User();
+            member2.setUsername("member2");
+            member2.setPassword(passwordEncoder.encode("member123"));
+            member2.setRole("MEMBER");
+            member2.setEmail("member2@example.com");
+            userRepository.save(member2);
 
             System.out.println("Test users created!");
         }

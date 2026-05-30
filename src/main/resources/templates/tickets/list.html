@@ -87,6 +87,21 @@
                             </button>
                         </form>
 
+                        <!-- Manager can assign a member to the ticket -->
+                        <form th:action="@{/tickets/{id}/assign-user(id=${ticket.id})}"
+                              method="post" class="mt-2"
+                              sec:authorize="hasRole('MANAGER')">
+                            <select name="userId" class="form-select form-select-sm mb-1">
+                                <option value="" disabled selected>Assign a member...</option>
+                                <option th:each="member : ${members}"
+                                        th:value="${member.id}"
+                                        th:text="${member.username}">member</option>
+                            </select>
+                            <button type="submit" class="btn btn-sm btn-outline-success">
+                                Assign
+                            </button>
+                        </form>
+
                         <!-- Show who is assigned -->
                         <div class="mt-2">
                             <small class="text-muted">Assigned to:</small><br>
@@ -174,6 +189,21 @@
                             </button>
                         </form>
 
+                        <!-- Manager can assign a member to the ticket -->
+                        <form th:action="@{/tickets/{id}/assign-user(id=${ticket.id})}"
+                              method="post" class="mt-2"
+                              sec:authorize="hasRole('MANAGER')">
+                            <select name="userId" class="form-select form-select-sm mb-1">
+                                <option value="" disabled selected>Assign a member...</option>
+                                <option th:each="member : ${members}"
+                                        th:value="${member.id}"
+                                        th:text="${member.username}">member</option>
+                            </select>
+                            <button type="submit" class="btn btn-sm btn-outline-success">
+                                Assign
+                            </button>
+                        </form>
+
                         <!-- Show who is assigned -->
                         <div class="mt-2">
                             <small class="text-muted">Assigned to:</small><br>
@@ -257,6 +287,21 @@
                               sec:authorize="hasRole('MEMBER')">
                             <button type="submit" class="btn btn-sm btn-outline-success">
                                 Assign Me
+                            </button>
+                        </form>
+
+                        <!-- Manager can assign a member to the ticket -->
+                        <form th:action="@{/tickets/{id}/assign-user(id=${ticket.id})}"
+                              method="post" class="mt-2"
+                              sec:authorize="hasRole('MANAGER')">
+                            <select name="userId" class="form-select form-select-sm mb-1">
+                                <option value="" disabled selected>Assign a member...</option>
+                                <option th:each="member : ${members}"
+                                        th:value="${member.id}"
+                                        th:text="${member.username}">member</option>
+                            </select>
+                            <button type="submit" class="btn btn-sm btn-outline-success">
+                                Assign
                             </button>
                         </form>
 

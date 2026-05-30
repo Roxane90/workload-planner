@@ -40,6 +40,7 @@ public class TicketController {
         model.addAttribute("board", boardService.getBoardById(boardId));
         model.addAttribute("currentUser", currentUser);
         model.addAttribute("assignments", assignmentService.getAllAssignments());
+        model.addAttribute("members", userRepository.findByRole("MEMBER"));
         return "tickets/list";
     }
 
@@ -81,7 +82,7 @@ public class TicketController {
     }
 
     @PostMapping("/{id}/assign")
-    public String assignToTicket(@PathVariable Long id,
+    public String assignMyselfToTicket(@PathVariable Long id,
                                  org.springframework.security.core.Authentication authentication,
                                  RedirectAttributes redirectAttributes) {
         String username = authentication.getName();
@@ -89,6 +90,16 @@ public class TicketController {
         Ticket ticket = ticketService.getTicketById(id);
         assignmentService.assignUserToTicket(id, user.getId());
         redirectAttributes.addFlashAttribute("successMessage", "You have been assigned to the ticket!");
+        return "redirect:/tickets/board/" + ticket.getBoard().getId();
+    }
+
+    @PostMapping("/{id}/assign-user")
+    public String assignMemberToTicket(@PathVariable Long id,
+                                       @RequestParam Long userId,
+                                       RedirectAttributes redirectAttributes) {
+        Ticket ticket = ticketService.getTicketById(id);
+        assignmentService.assignUserToTicket(id, userId);
+        redirectAttributes.addFlashAttribute("successMessage", "Member assigned successfully!");
         return "redirect:/tickets/board/" + ticket.getBoard().getId();
     }
 
@@ -133,4 +144,5 @@ public class TicketController {
 
         return "redirect:/tickets/board/" + ticket.getBoard().getId();
     }
+
 }

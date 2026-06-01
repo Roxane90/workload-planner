@@ -10,6 +10,11 @@ This Workload Planner was created as a student project.
 - Program: UCLL Programmeren
 - Course: GIP5
 - Academic Year: 2025–2026
+- Teacher: Serhat Erdogan
+- Student: Roxane Reza
+
+## Live Demo
+https://workload-planner-production-e85c.up.railway.app
 
 ## What it does
 
@@ -38,6 +43,7 @@ There are two user roles with different permissions:
 | Frontend | Thymeleaf + Bootstrap 5 (via CDN) |
 | Security | Spring Security                   |
 | Dev environment | Docker                            |
+| Deployment | Railway |
 
 ---
 

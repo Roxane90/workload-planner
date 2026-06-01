@@ -16,6 +16,14 @@ This Workload Planner was created as a student project.
 ## Live Demo
 https://workload-planner-production-e85c.up.railway.app
 
+### Test accounts
+
+| Username | Password | Role |
+|---|---|---|
+| manager | manager123 | Project Manager |
+| member1 | member123 | Member |
+| member2 | member123 | Member |
+
 ## What it does
 
 The Workload Planner allows teams to manage work through boards and tickets.

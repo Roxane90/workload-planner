@@ -68,4 +68,13 @@ public class TicketAssignmentService {
             }
         }
     }
+
+    public Map<String, Long> getCompletedTicketsPerUser() {
+        return assignmentRepository.findAll().stream()
+                .filter(a -> a.getTicket().getStatus().equals("DONE"))
+                .collect(java.util.stream.Collectors.groupingBy(
+                        a -> a.getUser().getUsername(),
+                        java.util.stream.Collectors.counting()
+                ));
+    }
 }

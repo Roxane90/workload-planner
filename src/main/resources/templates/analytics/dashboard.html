@@ -99,6 +99,29 @@
         </div>
     </div>
 
+    <!-- Completed tickets per member -->
+    <div class="row mb-4">
+        <h4>Tickets Completed per Member</h4>
+        <div class="col-md-6">
+            <table class="table table-bordered">
+                <thead class="table-dark">
+                <tr>
+                    <th>Member</th>
+                    <th>Tickets Completed</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="entry : ${completedPerUser}">
+                    <td th:text="${entry.key}">Username</td>
+                    <td th:text="${entry.value}">0</td>
+                </tr>
+                </tbody>
+            </table>
+            <p th:if="${#maps.isEmpty(completedPerUser)}"
+               class="text-muted">No tickets completed yet.</p>
+        </div>
+    </div>
+
 </div>
 
 </body>

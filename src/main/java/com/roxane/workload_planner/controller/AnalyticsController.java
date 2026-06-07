@@ -35,9 +35,11 @@ public class AnalyticsController extends BaseController {
         model.addAttribute("inProgressCount", ticketService.countByStatus("IN_PROGRESS"));
         model.addAttribute("doneCount", ticketService.countByStatus("DONE"));
         model.addAttribute("boards", boardService.getAllBoards());
-        model.addAttribute("assignmentsPerUser",
-                assignmentService.getAssignmentCountPerUser());
+        model.addAttribute("assignmentsPerUser", assignmentService.getAssignmentCountPerUser());
+        model.addAttribute("completedPerUser", assignmentService.getCompletedTicketsPerUser());
         model.addAttribute("displayName", getDisplayName(authentication));
         return "analytics/dashboard";
     }
+
+
 }

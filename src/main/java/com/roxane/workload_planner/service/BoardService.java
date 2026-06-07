@@ -26,6 +26,13 @@ public class BoardService {
         return boardRepository.save(board);
     }
 
+    public Board updateBoard(Long id, String title, String description) {
+        Board board = getBoardById(id);
+        board.setTitle(title);
+        board.setDescription(description);
+        return boardRepository.save(board);
+    }
+
     public void deleteBoard(Long id) {
         boardRepository.deleteById(id);
     }

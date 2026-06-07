@@ -6,6 +6,7 @@ import com.roxane.workload_planner.repository.UserRepository;
 import com.roxane.workload_planner.service.BoardService;
 import com.roxane.workload_planner.service.TicketAssignmentService;
 import com.roxane.workload_planner.service.TicketService;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,26 +14,25 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/tickets")
-public class TicketController {
+public class TicketController extends BaseController {
 
     private final TicketService ticketService;
     private final BoardService boardService;
     private final TicketAssignmentService assignmentService;
-    private final UserRepository userRepository;
 
     public TicketController(TicketService ticketService,
                             BoardService boardService,
                             TicketAssignmentService assignmentService,
                             UserRepository userRepository) {
+        super(userRepository);
         this.ticketService = ticketService;
         this.boardService = boardService;
         this.assignmentService = assignmentService;
-        this.userRepository = userRepository;
     }
 
     @GetMapping("/board/{boardId}")
     public String getTicketsForBoard(@PathVariable Long boardId, Model model,
-                                     org.springframework.security.core.Authentication authentication) {
+                                     Authentication authentication) {
         String username = authentication.getName();
         User currentUser = userRepository.findByUsername(username);
 
@@ -41,13 +41,16 @@ public class TicketController {
         model.addAttribute("currentUser", currentUser);
         model.addAttribute("assignments", assignmentService.getAllAssignments());
         model.addAttribute("members", userRepository.findByRole("MEMBER"));
+        model.addAttribute("displayName", getDisplayName(authentication));
         return "tickets/list";
     }
 
     @GetMapping("/new/{boardId}")
-    public String showCreateForm(@PathVariable Long boardId, Model model) {
+    public String showCreateForm(@PathVariable Long boardId, Model model,
+                                 Authentication authentication) {
         model.addAttribute("ticket", new Ticket());
         model.addAttribute("boardId", boardId);
+        model.addAttribute("displayName", getDisplayName(authentication));
         return "tickets/form";
     }
 
@@ -83,8 +86,8 @@ public class TicketController {
 
     @PostMapping("/{id}/assign")
     public String assignMyselfToTicket(@PathVariable Long id,
-                                 org.springframework.security.core.Authentication authentication,
-                                 RedirectAttributes redirectAttributes) {
+                                       Authentication authentication,
+                                       RedirectAttributes redirectAttributes) {
         String username = authentication.getName();
         User user = userRepository.findByUsername(username);
         Ticket ticket = ticketService.getTicketById(id);
@@ -104,9 +107,11 @@ public class TicketController {
     }
 
     @GetMapping("/{id}/edit")
-    public String showEditForm(@PathVariable Long id, Model model) {
+    public String showEditForm(@PathVariable Long id, Model model,
+                               Authentication authentication) {
         Ticket ticket = ticketService.getTicketById(id);
         model.addAttribute("ticket", ticket);
+        model.addAttribute("displayName", getDisplayName(authentication));
         return "tickets/edit";
     }
 
@@ -125,14 +130,12 @@ public class TicketController {
     @PostMapping("/{id}/unassign")
     public String unassignFromTicket(@PathVariable Long id,
                                      @RequestParam Long userId,
-                                     org.springframework.security.core.Authentication authentication,
+                                     Authentication authentication,
                                      RedirectAttributes redirectAttributes) {
         String username = authentication.getName();
         User currentUser = userRepository.findByUsername(username);
         Ticket ticket = ticketService.getTicketById(id);
 
-        // Members can only unassign themselves
-        // Managers can unassign anyone
         if (currentUser.getRole().equals("MANAGER") ||
                 currentUser.getId().equals(userId)) {
             assignmentService.removeAssignment(id, userId);
@@ -145,5 +148,4 @@ public class TicketController {
 
         return "redirect:/tickets/board/" + ticket.getBoard().getId();
     }
-
 }

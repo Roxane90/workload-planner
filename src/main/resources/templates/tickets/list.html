@@ -17,7 +17,7 @@
            sec:authorize="hasRole('MANAGER')">Analytics</a>
         <a class="btn btn-outline-light btn-sm ms-2" href="/profile">My Profile</a>
         <span class="text-light me-3 ms-3 small">
-        Logged in as: <strong sec:authentication="name">username</strong>
+            Logged in as <strong th:text="${displayName}">username</strong>
         </span>
         <form th:action="@{/logout}" method="post" class="d-inline">
             <button type="submit" class="btn btn-outline-danger btn-sm ms-2">Logout</button>

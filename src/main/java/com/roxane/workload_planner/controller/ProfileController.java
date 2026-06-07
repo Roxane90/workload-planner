@@ -11,27 +11,25 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/profile")
-public class ProfileController {
+public class ProfileController extends BaseController {
 
     private final ProfileService profileService;
-    private final UserRepository userRepository;
 
     public ProfileController(ProfileService profileService,
                              UserRepository userRepository) {
+        super(userRepository);
         this.profileService = profileService;
-        this.userRepository = userRepository;
     }
 
-    // Show profile page
     @GetMapping
     public String showProfile(Authentication authentication, Model model) {
         String username = authentication.getName();
         User user = userRepository.findByUsername(username);
         model.addAttribute("user", user);
+        model.addAttribute("displayName", getDisplayName(authentication));
         return "profile/profile";
     }
 
-    // Handle profile update
     @PostMapping("/update")
     public String updateProfile(@RequestParam String newUsername,
                                 @RequestParam String firstName,
@@ -39,7 +37,6 @@ public class ProfileController {
                                 @RequestParam String jobDescription,
                                 Authentication authentication,
                                 RedirectAttributes redirectAttributes) {
-
         String currentUsername = authentication.getName();
         String error = profileService.updateProfile(
                 currentUsername, newUsername, firstName, lastName, jobDescription);
@@ -54,14 +51,12 @@ public class ProfileController {
         return "redirect:/profile";
     }
 
-    // Handle password update
     @PostMapping("/password")
     public String updatePassword(@RequestParam String currentPassword,
                                  @RequestParam String newPassword,
                                  @RequestParam String confirmPassword,
                                  Authentication authentication,
                                  RedirectAttributes redirectAttributes) {
-
         String username = authentication.getName();
         String error = profileService.updatePassword(
                 username, currentPassword, newPassword, confirmPassword);

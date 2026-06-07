@@ -35,9 +35,16 @@
                 <input type="password" name="password"
                        class="form-control" required>
             </div>
-            <button type="submit"
-                    class="btn btn-primary w-100">Login</button>
+            <button type="submit" class="btn btn-primary w-100">Login</button>
+            <hr>
+            <p class="text-center text-muted small mb-2">Don't have an account?</p>
+            <a href="/register" class="btn btn-outline-primary w-100">Create Account</a>
         </form>
+
+        <!-- Show message after successful registration -->
+        <div th:if="${param.registered}" class="alert alert-success">
+            Account created successfully! You can now log in.
+        </div>
 
     </div>
 </div>

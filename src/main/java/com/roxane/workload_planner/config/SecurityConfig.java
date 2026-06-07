@@ -15,6 +15,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/login", "/css/**").permitAll()
+                        .requestMatchers("/login", "/register", "/css/**").permitAll()
                         .requestMatchers("/boards/new", "/boards/*/delete").hasRole("MANAGER")
                         .requestMatchers("/tickets/new/**", "/tickets/*/delete").hasRole("MANAGER")
                         .requestMatchers("/tickets/*/edit").hasRole("MANAGER")

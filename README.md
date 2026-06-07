@@ -33,12 +33,16 @@ There are two user roles with different permissions:
 - Create, edit and delete boards
 - Create, edit and delete tickets
 - Assign members to tickets and remove assignments
-- View analytics dashboard (ticket stats, board overview, assignments per member)
+- View analytics dashboard (ticket stats, board overview, assignments per member, completed tickets per member)
+- Edit their own profile (username, password, first name, last name, job description)
+
 
 **Member:**
 - View boards and tickets
 - Assign themselves to tickets and remove their own assignment
 - Change the status of tickets (TODO → IN PROGRESS → DONE)
+- Edit their own profile (username, password, first name, last name, job description)
+
 
 ---
 
@@ -66,7 +70,7 @@ There are two user roles with different permissions:
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/workload-planner.git
+git clone https://github.com/roxane90/workload-planner.git
 ```
 
 2. Start the PostgreSQL database via Docker:
@@ -133,14 +137,18 @@ src/main/resources/
 ## Features
 
 - Role-based access control (Spring Security)
+- Self-registration for new member accounts (managers are hard coded)
 - Scrum board with three columns: TODO, IN PROGRESS, DONE
-- Managers can assign/unassign members to tickets
+- Story points per ticket (Fibonacci scale: 1, 2, 3, 5, 8)
+- Managers can assign/unassign any member to tickets
 - Members can assign/unassign themselves
-- Analytics dashboard for managers
+- Analytics dashboard for managers (ticket stats, completed tickets per member)
+- Profile page for all users (edit name, username, password, job description)
 - Confirmation dialogs before deleting
 - Success and error messages after actions
 - Friendly error page (403, 404, 500)
 - Test users created automatically on first startup
+- Deployed live on Railway
 
 ---
 

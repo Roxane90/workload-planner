@@ -114,9 +114,10 @@ public class TicketController {
     public String updateTicket(@PathVariable Long id,
                                @RequestParam String title,
                                @RequestParam String description,
+                               @RequestParam(required = false) Integer storyPoints,
                                RedirectAttributes redirectAttributes) {
         Ticket ticket = ticketService.getTicketById(id);
-        ticketService.updateTicket(id, title, description);
+        ticketService.updateTicket(id, title, description, storyPoints);
         redirectAttributes.addFlashAttribute("successMessage", "Ticket updated successfully!");
         return "redirect:/tickets/board/" + ticket.getBoard().getId();
     }

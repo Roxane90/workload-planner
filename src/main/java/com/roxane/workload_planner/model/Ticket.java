@@ -23,6 +23,8 @@ public class Ticket {
     private LocalDateTime createdAt = LocalDateTime.now();
     private LocalDateTime updatedAt = LocalDateTime.now();
 
+    private Integer storyPoints;
+
     @ManyToOne
     @JoinColumn(name = "board_id")
     private Board board;
@@ -54,4 +56,7 @@ public class Ticket {
 
     public List<TicketAssignment> getAssignments() { return assignments; }
     public void setAssignments(List<TicketAssignment> assignments) { this.assignments = assignments; }
+
+    public Integer getStoryPoints() { return storyPoints; }
+    public void setStoryPoints(Integer storyPoints) { this.storyPoints = storyPoints; }
 }

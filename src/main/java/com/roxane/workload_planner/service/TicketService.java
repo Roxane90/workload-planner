@@ -49,10 +49,11 @@ public class TicketService {
     }
 
     //Update a ticket
-    public Ticket updateTicket(Long id, String title, String description) {
+    public Ticket updateTicket(Long id, String title, String description, Integer storyPoints) {
         Ticket ticket = getTicketById(id);
         ticket.setTitle(title);
         ticket.setDescription(description);
+        ticket.setStoryPoints(storyPoints);
         ticket.setUpdatedAt(LocalDateTime.now());
         return ticketRepository.save(ticket);
     }

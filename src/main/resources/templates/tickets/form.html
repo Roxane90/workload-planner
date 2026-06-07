@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>New Ticket</title>
@@ -15,7 +16,7 @@
         <a class="btn btn-outline-light btn-sm ms-2" href="/analytics"
            sec:authorize="hasRole('MANAGER')">Analytics</a>
         <span class="text-light me-3 ms-3 small">
-        Logged in as: <strong sec:authentication="name">username</strong>
+            Logged in as: <strong sec:authentication="name">username</strong>
         </span>
         <form th:action="@{/logout}" method="post" class="d-inline">
             <button type="submit" class="btn btn-outline-danger btn-sm ms-2">Logout</button>
@@ -35,6 +36,17 @@
         <div class="mb-3">
             <label class="form-label">Description</label>
             <textarea class="form-control" th:field="*{description}" rows="3"></textarea>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Story Points (difficulty)</label>
+            <select class="form-select" name="storyPoints">
+                <option value="">No story points assigned</option>
+                <option value="1">1 - Very Easy</option>
+                <option value="2">2 - Easy</option>
+                <option value="3">3 - Medium</option>
+                <option value="5">5 - Hard</option>
+                <option value="8">8 - Very Hard</option>
+            </select>
         </div>
         <button type="submit" class="btn btn-primary">Create Ticket</button>
         <a th:href="@{/tickets/board/{id}(id=${boardId})}"

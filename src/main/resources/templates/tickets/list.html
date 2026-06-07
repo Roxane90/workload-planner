@@ -53,7 +53,17 @@
                     <div class="card-body">
                         <h6 class="card-title" th:text="${ticket.title}">Ticket</h6>
                         <p class="card-text small" th:text="${ticket.description}"></p>
-
+                        <!-- Story points badge -->
+                        <div class="mb-2">
+                            <span th:if="${ticket.storyPoints != null}"
+                                  class="badge bg-info text-dark">
+                                ⭐ <span th:text="${ticket.storyPoints}"></span> SP
+                            </span>
+                            <span th:if="${ticket.storyPoints == null}"
+                                  class="badge bg-light text-muted">
+                                No story points assigned
+                            </span>
+                        </div>
                         <form th:action="@{/tickets/{id}/status(id=${ticket.id})}"
                               method="post">
                             <select name="status" class="form-select form-select-sm mb-2">
@@ -155,7 +165,17 @@
                     <div class="card-body">
                         <h6 class="card-title" th:text="${ticket.title}">Ticket</h6>
                         <p class="card-text small" th:text="${ticket.description}"></p>
-
+                        <!-- Story points badge -->
+                        <div class="mb-2">
+                            <span th:if="${ticket.storyPoints != null}"
+                                  class="badge bg-info text-dark">
+                                ⭐ <span th:text="${ticket.storyPoints}"></span> SP
+                            </span>
+                            <span th:if="${ticket.storyPoints == null}"
+                                  class="badge bg-light text-muted">
+                                No story points assigned
+                            </span>
+                        </div>
                         <form th:action="@{/tickets/{id}/status(id=${ticket.id})}"
                               method="post">
                             <select name="status" class="form-select form-select-sm mb-2">
@@ -257,7 +277,17 @@
                     <div class="card-body">
                         <h6 class="card-title" th:text="${ticket.title}">Ticket</h6>
                         <p class="card-text small" th:text="${ticket.description}"></p>
-
+                        <!-- Story points badge -->
+                        <div class="mb-2">
+                            <span th:if="${ticket.storyPoints != null}"
+                                  class="badge bg-info text-dark">
+                                ⭐ <span th:text="${ticket.storyPoints}"></span> SP
+                            </span>
+                            <span th:if="${ticket.storyPoints == null}"
+                                  class="badge bg-light text-muted">
+                                No story points assigned
+                            </span>
+                        </div>
                         <form th:action="@{/tickets/{id}/status(id=${ticket.id})}"
                               method="post">
                             <select name="status" class="form-select form-select-sm mb-2">
